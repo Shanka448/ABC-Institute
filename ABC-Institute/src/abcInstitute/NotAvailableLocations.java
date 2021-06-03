@@ -186,7 +186,7 @@ public class NotAvailableLocations extends JFrame{
 		panel_1.add(cmbSDate);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(12, 220, 574, 268);
+		scrollPane.setBounds(12, 262, 574, 226);
 		panel_1.add(scrollPane);
 		
 		table = new JTable();
@@ -202,8 +202,8 @@ public class NotAvailableLocations extends JFrame{
 				cmbSDate.setSelectedItem(model.getValueAt(selectedRowIndex, 4).toString());
 				SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
 				try {
-					Date date1 = formatter.parse(model.getValueAt(selectedRowIndex, 5).toString());
-					Date dateto = formatter.parse(model.getValueAt(selectedRowIndex, 6).toString());
+					Date date1 = formatter.parse(model.getValueAt(selectedRowIndex, 6).toString());
+					Date dateto = formatter.parse(model.getValueAt(selectedRowIndex, 7).toString());
 					spnStime.setValue(date1);
 					spnEtime.setValue(dateto);
 				} catch (ParseException e) {
@@ -231,6 +231,14 @@ public class NotAvailableLocations extends JFrame{
 		btnDelete.setBackground(Color.RED);
 		btnDelete.setBounds(167, 516, 116, 38);
 		panel_1.add(btnDelete);
+		
+		JLabel lblRoom = new JLabel("Room");
+		lblRoom.setBounds(33, 217, 56, 16);
+		panel_1.add(lblRoom);
+		
+		JComboBox cmbRoomS = new JComboBox();
+		cmbRoomS.setBounds(140, 214, 143, 22);
+		panel_1.add(cmbRoomS);
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(Color.WHITE);
@@ -353,6 +361,7 @@ public class NotAvailableLocations extends JFrame{
 					while(rs.next()) {
 						String room = rs.getString("roomName");
 						cmbRoom.addItem(room);
+						cmbRoomS.addItem(room);
 					}
 					while(rsLec.next()) {
 						String Lec = rsLec.getString("Name");
@@ -415,15 +424,16 @@ public class NotAvailableLocations extends JFrame{
 					Time Etime = new Time(Edate.getTime());
 					
 					Connection conn = DB.getConnection();
-					String addSessions = "INSERT INTO preffered_sessions (Lecturer, Main_Group, subject, Date, Start_Time, End_Time)"
-							+ "VALUES (?, ?, ?, ?, ?, ?)";
+					String addSessions = "INSERT INTO preffered_sessions (Lecturer, Main_Group, subject, Date, Room, Start_Time, End_Time)"
+							+ "VALUES (?, ?, ?, ?, ?, ?, ?)";
 					PreparedStatement statement = conn.prepareStatement(addSessions);
 					statement.setString(1, cmbLec.getSelectedItem().toString());
 					statement.setString(2, cmbGroup.getSelectedItem().toString());
 					statement.setString(3, cmbSub.getSelectedItem().toString());
 					statement.setString(4, cmbSDate.getSelectedItem().toString());
-					statement.setTime(5, time);
-					statement.setTime(6, Etime);
+					statement.setString(5, cmbRoomS.getSelectedItem().toString());
+					statement.setTime(6, time);
+					statement.setTime(7, Etime);
 					
 					int rows = statement.executeUpdate();
 					if(rows>0) {
@@ -450,14 +460,15 @@ public class NotAvailableLocations extends JFrame{
 					Connection conn = DB.getConnection();
 					int i = table.getSelectedRow();
 					String ID = table.getModel().getValueAt(i, 0).toString();
-					String update = "UPDATE preffered_sessions SET Lecturer=?, Main_Group=?, subject=?, Date=?, Start_Time=?, End_Time=? WHERE ID=" +ID;
+					String update = "UPDATE preffered_sessions SET Lecturer=?, Main_Group=?, subject=?, Date=?, Room=?, Start_Time=?, End_Time=? WHERE ID=" +ID;
 					PreparedStatement statement = conn.prepareStatement(update);
 					statement.setString(1, cmbLec.getSelectedItem().toString());
 					statement.setString(2, cmbGroup.getSelectedItem().toString());
 					statement.setString(3, cmbSub.getSelectedItem().toString());
 					statement.setString(4, cmbSDate.getSelectedItem().toString());
-					statement.setTime(5, time);
-					statement.setTime(6, Etime);
+					statement.setString(5, cmbRoomS.getSelectedItem().toString());
+					statement.setTime(6, time);
+					statement.setTime(7, Etime);
 					statement.executeUpdate();
 //					conn.commit();
 					JOptionPane.showMessageDialog(null, "Successfully Updated!");
@@ -548,5 +559,4 @@ public class NotAvailableLocations extends JFrame{
 			
 		});
 	}
-
 }

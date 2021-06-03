@@ -28,6 +28,7 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.DefaultComboBoxModel;
 
 public class Tags {
 
@@ -110,6 +111,7 @@ public class Tags {
 		JComboBox comboBoxTagRelated = new JComboBox(relatedTags);
 		comboBoxTagRelated.setBackground(new Color(255, 255, 255));
 		comboBoxTagRelated.setFont(new Font("Arial", Font.BOLD, 13));
+		comboBoxTagRelated.setModel(new DefaultComboBoxModel(new String[] {"Lecture", "Tutorial", "Practical"}));
 		comboBoxTagRelated.setSelectedIndex(0);
 		comboBoxTagRelated.setBounds(708, 312, 174, 34);
 		tabAddTags.add(comboBoxTagRelated);
@@ -194,6 +196,7 @@ public class Tags {
 		JComboBox comboBoxMngTagRelated = new JComboBox(relatedTags);
 		comboBoxMngTagRelated.setBackground(new Color(255, 255, 255));
 		comboBoxMngTagRelated.setFont(new Font("Arial", Font.BOLD, 13));
+		comboBoxMngTagRelated.setModel(new DefaultComboBoxModel(new String[] {"Lecture", "Tutorial", "Practical"}));
 		comboBoxMngTagRelated.setSelectedIndex(0);
 		comboBoxMngTagRelated.setBounds(1061, 408, 174, 25);
 		tabManageTags.add(comboBoxMngTagRelated);

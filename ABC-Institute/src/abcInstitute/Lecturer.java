@@ -28,6 +28,7 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.DefaultComboBoxModel;
 
 public class Lecturer {
 
@@ -140,6 +141,7 @@ DbValTable();
 		JComboBox comboBoxLecturersLevel = new JComboBox(levelStrings);
 		comboBoxLecturersLevel.setBackground(new java.awt.Color(255, 255, 255));
 		comboBoxLecturersLevel.setFont(new Font("Arial", Font.BOLD, 13));
+		comboBoxLecturersLevel.setModel(new DefaultComboBoxModel(new String[] {"1", "2", "3", "4", "5", "6"}));
 		comboBoxLecturersLevel.setSelectedIndex(0);
 		comboBoxLecturersLevel.setBounds(709, 363, 174, 28);
 		tabAddLecturers.add(comboBoxLecturersLevel);
@@ -197,6 +199,7 @@ DbValTable();
 		tabAddLecturers.add(lblRank);
 		
 		JComboBox comboBoxLecturersDepartment = new JComboBox(departmentStrings);
+		comboBoxLecturersDepartment.setModel(new DefaultComboBoxModel(new String[] {"IT", "SE", "Examination", "Service"}));
 		comboBoxLecturersDepartment.setBackground(new java.awt.Color(255, 255, 255));
 		comboBoxLecturersFaculty.setSelectedIndex(0);
 		comboBoxLecturersDepartment.setFont(new Font("Arial", Font.BOLD, 13));
@@ -205,6 +208,7 @@ DbValTable();
 		
 		JComboBox comboBoxLecturersBuilduing = new JComboBox(builduingStrings);
 		comboBoxLecturersBuilduing.setBackground(new java.awt.Color(255, 255, 255));
+		comboBoxLecturersBuilduing.setModel(new DefaultComboBoxModel(new String[] {"New Builduing", "Main", "A-Block", "B-Block", "c-Block", "D-Block"}));
 		comboBoxLecturersBuilduing.setSelectedIndex(0);
 		comboBoxLecturersBuilduing.setFont(new Font("Arial", Font.BOLD, 13));
 		comboBoxLecturersBuilduing.setBounds(707, 308, 174, 28);
@@ -511,7 +515,7 @@ DbValTable();
 			if(emplolyeeID.isEmpty() || lecturerLevel.isEmpty() || lecturerRank.isEmpty() || lecturerFaculty.isEmpty() || lecturerDepartment.isEmpty() || lecturerCenter.isEmpty() || lecturerBuilduing.isEmpty() || lecturerName.isEmpty()) {
 				showMessageDialog(null, "All fields shoud be filled", "Error", ERROR_MESSAGE);
 			}
-			else if(emplolyeeID.length() == 6) {
+			else if(emplolyeeID.length() == 4) {
 				if(crud == 0) {
 					PreparedStatement  ps = con.prepareStatement("UPDATE lecturers SET lecturerName = ?, faculty = ?, department = ? , center = ? , builduing = ? , level = ? , ranks = ? WHERE lecturerId = ?");
 					ps.setString(1,lecturerName);

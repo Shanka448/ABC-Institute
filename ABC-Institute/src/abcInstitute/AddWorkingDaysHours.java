@@ -40,14 +40,13 @@ import net.proteanit.sql.DbUtils;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.JComboBox;
 
 //import abcInstitue.DB;
 
 public class AddWorkingDaysHours {
 
 	private JFrame frmAddWorkingDays;
-	private JTextField txtEid;
-	private JTextField txtLname;
 	
 	Connection conn = null;
 	private JTable table;
@@ -75,44 +74,21 @@ public class AddWorkingDaysHours {
 		initialize();
 	}
 	
-	public void DbValTable() {
-//		String data[][]=null;
-//		String column[]=null;
-		try{
-			Connection con=DB.getConnection();
-			PreparedStatement ps=con.prepareStatement("select * from lecturers1");
-			ResultSet rs=ps.executeQuery();
-			
-			table.setModel(DbUtils.resultSetToTableModel(rs));
-//			ResultSetMetaData rsmd=rs.getMetaData();
-//			int cols=rsmd.getColumnCount();
-//			column=new String[cols];
-//			for(int i=1;i<=cols;i++){
-//				column[i-1]=rsmd.getColumnName(i);
-//			}
+//	public void DbValTable() {
+//		try{
+//			Connection con=DB.getConnection();
+//			PreparedStatement ps=con.prepareStatement("select * from lecturers1");
+//			ResultSet rs=ps.executeQuery();
 //			
-//			rs.last();
-//			int rows=rs.getRow();
-//			rs.beforeFirst();
-//
-//			data=new String[rows][cols];
-//			int count=0;
-//			while(rs.next()){
-//				for(int i=1;i<=cols;i++){
-//					data[count][i-1]=rs.getString(i);
-//					
-//				}
-//				count++;
+//			table.setModel(DbUtils.resultSetToTableModel(rs));
+//			
+//			while(rs.next()) {
+//				String ID = rs.getString("ID");
+//				
 //			}
-//			AbstractTableModel model = new DefaultTableModel(data,new String[] {
-//					"ID", "Name", "NoOfWorkingDays", "MHrs", "MMin", "THrs", "Tmin", "WHrs", "WMin", "ThHrs", "ThMin", "FHrs", "FMin", "SHrs", "SMin", "SuHrs", "SuMin"
-//				});
-//			table = new JTable(model);
-//			table.setBounds(161, 11, 1165, 372);
-//			table.setRowHeight(30);
-		}catch(Exception e){System.out.println(e);}
-		
-	}
+//		}catch(Exception e){System.out.println(e);}
+//		
+//	}
 
 	/**
 	 * Initialize the contents of the frame.
@@ -128,7 +104,7 @@ public class AddWorkingDaysHours {
 		frmAddWorkingDays.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmAddWorkingDays.getContentPane().setLayout(null);
 		
-		DbValTable();
+//		DbValTable();
 		
 		JLabel lblNewLabel = new JLabel("Working Days and Hours");
 		lblNewLabel.setForeground(Color.BLUE);
@@ -378,21 +354,11 @@ public class AddWorkingDaysHours {
 		lblNewLabel_1.setBounds(67, 131, 147, 16);
 		frmAddWorkingDays.getContentPane().add(lblNewLabel_1);
 		
-		txtEid = new JTextField();
-		txtEid.setBounds(222, 83, 209, 30);
-		frmAddWorkingDays.getContentPane().add(txtEid);
-		txtEid.setColumns(10);
-		
 		JLabel lblEmployeeId = new JLabel("Employee ID");
 		lblEmployeeId.setForeground(new Color(0, 0, 0));
 		lblEmployeeId.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblEmployeeId.setBounds(67, 86, 147, 16);
 		frmAddWorkingDays.getContentPane().add(lblEmployeeId);
-		
-		txtLname = new JTextField();
-		txtLname.setBounds(222, 129, 209, 30);
-		frmAddWorkingDays.getContentPane().add(txtLname);
-		txtLname.setColumns(10);
 		
 		JButton btnUpdate = new JButton("UPDATE");
 		btnUpdate.setForeground(Color.WHITE);
@@ -432,19 +398,13 @@ public class AddWorkingDaysHours {
 		btnBack.setBounds(67, 616, 129, 43);
 		frmAddWorkingDays.getContentPane().add(btnBack);
 		
-		//Validate only Strings can add to the text field
-		txtLname.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyPressed(KeyEvent arg0) {
-				char c = arg0.getKeyChar();
-				
-				if(Character.isLetter(c) || Character.isWhitespace(c) || Character.isISOControl(c) || c == KeyEvent.VK_PERIOD) {
-					txtLname.setEditable(true);
-				}else {
-					txtLname.setEditable(false);
-				}
-			}
-		});
+		JComboBox cmbEID = new JComboBox();
+		cmbEID.setBounds(222, 80, 209, 30);
+		frmAddWorkingDays.getContentPane().add(cmbEID);
+		
+		JComboBox cmbEname = new JComboBox();
+		cmbEname.setBounds(222, 126, 209, 30);
+		frmAddWorkingDays.getContentPane().add(cmbEname);
 		
 		//Check no of working days are in range
 		spnDays.addChangeListener(new ChangeListener() {
@@ -568,7 +528,7 @@ public class AddWorkingDaysHours {
 		//Insert button
 		btnInsert.addActionListener(new ActionListener() { 
 			public void actionPerformed(ActionEvent arg0) {
-				if(txtEid.getText().length() == 0 || txtLname.getText().length() == 0) {
+				if(cmbEID.getSelectedItem() == null || cmbEname.getSelectedItem() == null) {
 					JOptionPane.showMessageDialog(null, "Employee ID cannot be empty");
 					System.out.println("Employee ID cannot be empty");
 				} else {
@@ -578,8 +538,8 @@ public class AddWorkingDaysHours {
 								+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 						
 						PreparedStatement ps = conn.prepareStatement(Insertsql);
-						ps.setString(1, txtEid.getText());
-						ps.setString(2, txtLname.getText());
+						ps.setString(1, cmbEID.getSelectedItem().toString());
+						ps.setString(2, cmbEname.getSelectedItem().toString());
 						ps.setInt(3, (int) spnDays.getValue());
 						ps.setInt(4, (int) mHrs.getValue());
 						ps.setInt(5, (int) mMin.getValue());
@@ -603,7 +563,13 @@ public class AddWorkingDaysHours {
 //							conn.commit();
 						}
 						
-						DbValTable();
+						try{
+							Connection con=DB.getConnection();
+							PreparedStatement statement=con.prepareStatement("select * from lecturers1");
+							ResultSet rs=statement.executeQuery();
+							
+							table.setModel(DbUtils.resultSetToTableModel(rs));									
+						}catch(Exception e){System.out.println(e);}
 						
 					} 
 					catch (SQLException e) {
@@ -627,8 +593,8 @@ public class AddWorkingDaysHours {
 				TableModel model = table.getModel();
 				int selectedRowIndex = table.getSelectedRow();
 				
-				txtEid.setText(model.getValueAt(selectedRowIndex, 0).toString());
-				txtLname.setText(model.getValueAt(selectedRowIndex, 1).toString());
+				cmbEID.setSelectedItem(model.getValueAt(selectedRowIndex, 0).toString());
+				cmbEname.setSelectedItem(model.getValueAt(selectedRowIndex, 1).toString());
 				spnDays.setValue(model.getValueAt(selectedRowIndex, 2));
 				mHrs.setValue(model.getValueAt(selectedRowIndex, 3));
 				mMin.setValue(model.getValueAt(selectedRowIndex, 4));
@@ -718,14 +684,20 @@ public class AddWorkingDaysHours {
 					Connection conn = DB.getConnection();
 					String sql = "DELETE FROM lecturers1 WHERE ID = ?";
 					PreparedStatement statement = conn.prepareStatement(sql);
-					statement.setString(1, txtEid.getText());
+					statement.setString(1, cmbEID.getSelectedItem().toString());
 					int response = JOptionPane.showConfirmDialog(null, "Are you sure?","Delete",JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 					if(response == JOptionPane.YES_OPTION) {
 						statement.executeUpdate();
 //						conn.commit();
 						System.out.println("Successfully Deleted");
 						
-						DbValTable();
+						try{
+							Connection con=DB.getConnection();
+							PreparedStatement ps=con.prepareStatement("select * from lecturers1");
+							ResultSet rs=ps.executeQuery();
+							
+							table.setModel(DbUtils.resultSetToTableModel(rs));									
+						}catch(Exception e){System.out.println(e);}
 					}else {
 						
 					}
@@ -744,10 +716,10 @@ public class AddWorkingDaysHours {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
 					Connection conn = DB.getConnection();
-					String ID = txtEid.getText().toString();
-					String updateSql = "UPDATE lecturers SET Name=?, NoWorkingDays=?, Mhrs=?, Mmin=?, Thrs=?, Tmin=?, Whrs=?, Wmin=?, Thhrs=?, Thmin=?, Fhrs=?, Fmin=?, Shrs=?, Smin=?, Suhrs=?, Sumin=? WHERE ID =?";
+					String ID = cmbEID.getSelectedItem().toString();
+					String updateSql = "UPDATE lecturers1 SET Name=?, NoWorkingDays=?, Mhrs=?, Mmin=?, Thrs=?, Tmin=?, Whrs=?, Wmin=?, Thhrs=?, Thmin=?, Fhrs=?, Fmin=?, Shrs=?, Smin=?, Suhrs=?, Sumin=? WHERE ID =?";
 					PreparedStatement ps = conn.prepareStatement(updateSql);
-					ps.setString(1, txtLname.getText().toString());
+					ps.setString(1, cmbEname.getSelectedItem().toString());
 					ps.setInt(2, (int) spnDays.getValue());
 					ps.setInt(3, (int) mHrs.getValue());
 					ps.setInt(4, (int) mMin.getValue());
@@ -763,13 +735,19 @@ public class AddWorkingDaysHours {
 					ps.setInt(14, (int) sMin.getValue());
 					ps.setInt(15, (int) suHrs.getValue());
 					ps.setInt(16, (int) suMin.getValue());
-					ps.setString(17, txtEid.getText().toString());
+					ps.setString(17, cmbEID.getSelectedItem().toString());
 					
 					ps.executeUpdate();
 //					conn.commit();
 //					System.out.println("Successfully Updated!");
 					JOptionPane.showMessageDialog(null, "Successfully Updated!");
-					DbValTable();
+					try{
+						Connection con=DB.getConnection();
+						PreparedStatement statement=con.prepareStatement("select * from lecturers1");
+						ResultSet rs=statement.executeQuery();
+						
+						table.setModel(DbUtils.resultSetToTableModel(rs));									
+					}catch(Exception e){System.out.println(e);}
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -780,15 +758,30 @@ public class AddWorkingDaysHours {
 		frmAddWorkingDays.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowOpened(WindowEvent arg0) {
-				DbValTable();
+				try{
+					Connection con=DB.getConnection();
+					PreparedStatement ps=con.prepareStatement("select * from lecturers1");
+					PreparedStatement statement = con.prepareStatement("select * from lecturers");
+					ResultSet rs=ps.executeQuery();
+					ResultSet result=statement.executeQuery();
+					
+					table.setModel(DbUtils.resultSetToTableModel(rs));
+					
+					while(result.next()) {
+						String ID = result.getString("lecturerId");
+						String Name = result.getString("lecturerName");
+						cmbEID.addItem(ID);
+						cmbEname.addItem(Name);
+					}
+			}catch(Exception e){System.out.println(e);}
 			}
 		});
 		
 		//Clear Button
 		btnClear.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				txtEid.setText("");
-				txtLname.setText("");
+				cmbEID.setSelectedItem("");
+				cmbEname.setSelectedItem("");
 				spnDays.setValue(0);
 				mHrs.setValue(0);
 				mMin.setValue(0);

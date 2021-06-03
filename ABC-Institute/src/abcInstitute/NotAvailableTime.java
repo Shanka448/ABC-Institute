@@ -68,16 +68,11 @@ public class NotAvailableTime extends JFrame {
 		lblManageNotAvailable.setFont(new Font("Tahoma", Font.BOLD, 18));
 		contentPane.add(lblManageNotAvailable);
 		
-		JButton btnRefresh = new JButton("Update");
-		btnRefresh.setBounds(642, 326, 170, 42);
-		btnRefresh.setBackground(Color.BLUE);
-		btnRefresh.setForeground(Color.WHITE);
-		btnRefresh.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				
-			}
-		});
-		contentPane.add(btnRefresh);
+		JButton btnUpdate = new JButton("Update");
+		btnUpdate.setBounds(642, 326, 170, 42);
+		btnUpdate.setBackground(Color.BLUE);
+		btnUpdate.setForeground(Color.WHITE);
+		contentPane.add(btnUpdate);
 		
 		JButton btnBack = new JButton("Back");
 		btnBack.setBounds(215, 326, 170, 42);
@@ -120,6 +115,12 @@ public class NotAvailableTime extends JFrame {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+			}
+		});
+		
+		btnUpdate.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
 			}
 		});
 	}

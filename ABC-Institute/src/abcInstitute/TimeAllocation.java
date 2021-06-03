@@ -44,7 +44,7 @@ public class TimeAllocation {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(0,0,809, 510);
+		frame.setBounds(0,0,659, 457);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		contentPane = new JPanel();
 		contentPane.setBackground(new java.awt.Color(255, 255, 255));
@@ -61,7 +61,7 @@ public class TimeAllocation {
 				frame.dispose();
 			}
 		});
-		btnNewButton.setBounds(272, 151, 206, 78);
+		btnNewButton.setBounds(57, 124, 225, 78);
 		contentPane.add(btnNewButton);
 		
 		JButton btnNotAvailableSessions = new JButton("Not Available Sessions");
@@ -73,32 +73,8 @@ public class TimeAllocation {
 			}
 		});
 		btnNotAvailableSessions.setFont(new Font("Segoe UI", Font.BOLD, 16));
-		btnNotAvailableSessions.setBounds(509, 151, 212, 78);
+		btnNotAvailableSessions.setBounds(349, 124, 225, 78);
 		contentPane.add(btnNotAvailableSessions);
-		
-//		JButton btnNotAvailableStudent = new JButton("Not Available Student Groups");
-//		btnNotAvailableStudent.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent e) {
-//				NotAvailableTimeAllocationStudent sessions = new NotAvailableTimeAllocationStudent();
-//				sessions.setVisible(true);
-//				frame.dispose();
-//			}
-//		});
-//		btnNotAvailableStudent.setFont(new Font("Segoe UI", Font.BOLD, 16));
-//		btnNotAvailableStudent.setBounds(289, 371, 264, 78);
-//		contentPane.add(btnNotAvailableStudent);
-		
-		JButton btnNotAvailableTime = new JButton("Not Available Time");
-		btnNotAvailableTime.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				NotAvailableTime sessions = new NotAvailableTime();
-				sessions.setVisible(true);
-				frame.dispose();
-			}
-		});
-		btnNotAvailableTime.setFont(new Font("Segoe UI", Font.BOLD, 16));
-		btnNotAvailableTime.setBounds(32, 151, 206, 78);
-		contentPane.add(btnNotAvailableTime);
 		
 		JButton btnNewButton_1 = new JButton("Back");
 		btnNewButton_1.addActionListener(new ActionListener() {
@@ -109,7 +85,7 @@ public class TimeAllocation {
 		});
 		btnNewButton_1.setFont(new Font("Arial", Font.PLAIN, 20));
 		btnNewButton_1.setBackground(new Color(32, 178, 170));
-		btnNewButton_1.setBounds(563, 340, 158, 57);
+		btnNewButton_1.setBounds(433, 294, 158, 57);
 		contentPane.add(btnNewButton_1);
 	}
 
